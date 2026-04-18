@@ -20,12 +20,12 @@ const Navbar = () => {
   return (
     <nav 
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-brand-black/90 backdrop-blur-md py-4' : 'bg-transparent py-6'
+        isScrolled ? 'bg-brand-black/90 backdrop-blur-md py-3 md:py-4' : 'bg-transparent py-4 md:py-6'
       }`}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center">
+      <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-black tracking-tighter text-white">
+        <Link to="/" className="text-xl md:text-2xl font-black tracking-tighter text-white">
           BLUFOLD
         </Link>
 
@@ -77,15 +77,25 @@ const Navbar = () => {
             exit={{ opacity: 0, y: -20 }}
             className="md:hidden bg-brand-black absolute top-full left-0 w-full h-screen p-6 flex flex-col space-y-8 items-center pt-20"
           >
-            <div className="flex space-x-12">
+            <div className="flex space-x-12 text-white">
               <Search size={32} />
-              <ShoppingCart size={32} />
+              <button 
+                onClick={() => { setIsCartOpen(true); setIsMobileMenuOpen(false); }}
+                className="relative"
+              >
+                <ShoppingBag size={32} />
+                {itemCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-brand-blue text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
               <User size={32} />
             </div>
-            <div className="text-4xl font-bold space-y-4 text-center">
-              <a href="#" className="block">SHOP</a>
-              <a href="#" className="block">COLLECTIONS</a>
-              <a href="#" className="block">ABOUT</a>
+            <div className="text-3xl md:text-4xl font-bold space-y-6 text-center mt-6">
+              <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)} className="block text-white hover:text-brand-blue transition-colors">SHOP</Link>
+              <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="block text-white hover:text-brand-blue transition-colors">COLLECTIONS</a>
+              <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="block text-white hover:text-brand-blue transition-colors">ABOUT</a>
             </div>
           </motion.div>
         )}

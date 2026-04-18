@@ -53,7 +53,7 @@ const ShopPage = () => {
       <div className="container mx-auto px-6 pb-20">
         <motion.div
           layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8"
         >
           {filtered.map((product) => (
             <ProductCard key={product.id} product={product} />

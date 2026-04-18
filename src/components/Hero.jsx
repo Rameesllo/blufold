@@ -15,7 +15,7 @@ const Hero = () => {
         <img
           src="/assets/hero-model.png"
           alt="Fashion Model"
-          className="h-full w-full object-contain md:object-cover drop-shadow-2xl relative z-10"
+          className="h-full w-full object-cover object-center drop-shadow-2xl relative z-10"
         />
         {/* Blue Radial Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-blue/30 blur-[150px] rounded-full z-0" />
@@ -31,14 +31,14 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          <h1 className="text-7xl md:text-9xl font-black text-white px-2 tracking-tighter mb-0 flex flex-col items-center drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
+          <h1 className="text-5xl sm:text-7xl md:text-9xl font-black text-white px-2 tracking-tighter mb-0 flex flex-col items-center drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
             <span className="drop-shadow-[0_10px_10px_rgba(0,0,0,0.4)]">BLUFOLD</span>
             <span className="text-2xl md:text-3xl tracking-[0.6em] md:tracking-[0.8em] font-bold mt-[-5px] md:mt-[-10px] text-white drop-shadow-[0_5px_15px_rgba(0,0,0,0.6)]">
               CLOTHING®
             </span>
           </h1>
 
-          <p className="text-brand-gray text-lg md:text-xl font-medium mt-8 mb-10 tracking-widest uppercase">
+          <p className="text-brand-gray text-sm sm:text-lg md:text-xl font-medium mt-8 mb-10 tracking-widest uppercase">
             Built for Bold Moves
           </p>
 

@@ -146,20 +146,20 @@ export const ProductCard = ({ product }) => {
 
         {/* Bottom action buttons */}
         {!isQuickBuying && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 w-[90%] flex gap-2 z-10">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-0 opacity-100 md:translate-y-12 md:opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 w-[90%] flex gap-1.5 sm:gap-2 z-10">
             <button
               onClick={(e) => { e.stopPropagation(); setIsQuickBuying(true); }}
-              className="flex-1 py-3 bg-white text-brand-black text-xs font-black rounded-2xl flex items-center justify-center gap-1.5 hover:bg-brand-blue hover:text-white transition-colors"
+              className="flex-1 py-2 sm:py-3 bg-white text-brand-black text-[10px] sm:text-xs font-black rounded-xl sm:rounded-2xl flex items-center justify-center gap-1 hover:bg-brand-blue hover:text-white transition-colors"
             >
-              <ShoppingBag size={14} />
-              QUICK ADD
+              <ShoppingBag size={14} className="scale-75 sm:scale-100" />
+              <span className="hidden sm:inline">QUICK</span> ADD
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); setIsQuickBuying(true); }}
-              className="py-3 px-3 bg-brand-blue text-white text-xs font-black rounded-2xl flex items-center justify-center hover:brightness-110 transition-all"
+              className="py-2 px-2 sm:py-3 sm:px-3 bg-brand-blue text-white text-xs font-black rounded-xl sm:rounded-2xl flex items-center justify-center hover:brightness-110 transition-all"
               title="Buy Now"
             >
-              <Zap size={14} />
+              <Zap size={14} className="scale-75 sm:scale-100"/>
             </button>
           </div>
         )}
@@ -167,7 +167,7 @@ export const ProductCard = ({ product }) => {
 
       {/* Info */}
       <div className="px-1">
-        <h3 className="text-white font-bold text-base leading-tight truncate">{product.name}</h3>
+        <h3 className="text-white font-bold text-sm md:text-base leading-tight truncate">{product.name}</h3>
         <div className="flex items-center gap-1.5 my-1.5">
           {[1, 2, 3, 4, 5].map((s) => (
             <Star
@@ -179,8 +179,8 @@ export const ProductCard = ({ product }) => {
           <span className="text-brand-gray text-xs ml-1">({product.reviews})</span>
         </div>
         <div className="flex items-baseline gap-2">
-          <span className="text-white font-black text-lg">₹{product.price.toLocaleString()}</span>
-          <span className="text-brand-gray text-sm line-through">₹{product.originalPrice.toLocaleString()}</span>
+          <span className="text-white font-black text-base md:text-lg">₹{product.price.toLocaleString()}</span>
+          <span className="text-brand-gray text-xs md:text-sm line-through">₹{product.originalPrice.toLocaleString()}</span>
         </div>
       </div>
     </motion.div>
@@ -212,7 +212,7 @@ const ProductGrid = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
           {featured.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

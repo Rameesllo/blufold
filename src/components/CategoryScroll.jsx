@@ -12,13 +12,13 @@ const CategoryScroll = () => {
       <div className="absolute top-1/2 left-0 w-64 h-64 bg-brand-blue/5 blur-[100px] rounded-full -translate-y-1/2" />
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex justify-center">
-          <div className="flex items-center space-x-1 p-1 bg-brand-blue/5 backdrop-blur-md rounded-full border border-brand-blue/20 overflow-x-auto no-scrollbar">
+        <div className="flex justify-start sm:justify-center w-full px-4 sm:px-0">
+          <div className="flex items-center space-x-1 p-1 bg-brand-blue/5 backdrop-blur-md rounded-full border border-brand-blue/20 overflow-x-auto w-full sm:w-auto flex-nowrap scroll-smooth no-scrollbar">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveTab(cat)}
-                className={`relative px-8 py-3 rounded-full text-sm font-bold uppercase transition-all duration-300 whitespace-nowrap ${
+                className={`relative px-5 sm:px-8 py-2 md:py-3 rounded-full text-xs md:text-sm font-bold uppercase transition-all duration-300 whitespace-nowrap ${
                   activeTab === cat ? 'text-white' : 'text-brand-gray hover:text-white'
                 }`}
               >
