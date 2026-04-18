@@ -5,7 +5,7 @@ import {
   Heart, ShoppingBag, Zap, Star, ChevronLeft, Shield,
   Truck, RotateCcw, Package, CheckCircle2, Share2
 } from 'lucide-react';
-import { getProductById, products } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { ProductCard } from '../components/ProductGrid';
@@ -51,6 +51,7 @@ const SizeButton = ({ size, selected, onClick, unavailable }) => (
 
 const ProductDetailPage = () => {
   const { id } = useParams();
+  const { products, getProductById } = useProducts();
   const navigate = useNavigate();
   const product = getProductById(id);
   const { addToCart, setIsCartOpen } = useCart();

@@ -3,11 +3,23 @@ import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { itemCount, setIsCartOpen } = useCart();
+  const { currentUser, setIsLoginModalOpen, logout } = useAuth();
+  const [userProfile, setUserProfile] = useState(null);
+
+  useEffect(() => {
+    if (currentUser) {
+      const savedProfile = JSON.parse(localStorage.getItem(`blufold_profile_${currentUser.email}`));
+      setUserProfile(savedProfile);
+    } else {
+      setUserProfile(null);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,9 +43,36 @@ const Navbar = () => {
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-12">
-          <Link to="/" className="text-white text-xs font-bold tracking-widest uppercase hover:text-brand-blue transition-colors">Home</Link>
           <Link to="/shop" className="text-white text-xs font-bold tracking-widest uppercase hover:text-brand-blue transition-colors">Shop</Link>
           <a href="#" className="text-white text-xs font-bold tracking-widest uppercase hover:text-brand-blue transition-colors">Collections</a>
+          {currentUser ? (
+            <div className="relative group">
+              <button className="flex items-center gap-2 text-white hover:text-brand-blue transition-all">
+                {userProfile?.avatar ? (
+                  <div className="w-8 h-8 rounded-full border-2 border-brand-blue/30 overflow-hidden group-hover:border-brand-blue transition-all">
+                    <img src={userProfile.avatar} alt="Profile" className="w-full h-full object-cover" />
+                  </div>
+                ) : (
+                  <span className="text-xs font-bold tracking-widest uppercase border-b border-transparent group-hover:border-brand-blue">
+                    {currentUser.email ? currentUser.email.split('@')[0].slice(0, 8) : 'USER'}
+                  </span>
+                )}
+              </button>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-6 w-40 bg-[#050810] border border-white/10 rounded-xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all shadow-2xl z-50">
+                <Link to="/profile" className="w-full text-left block px-4 py-3 text-[10px] text-white font-black tracking-widest hover:bg-white/5 transition-colors uppercase">
+                  MY PROFILE
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <button 
+              onClick={() => setIsLoginModalOpen(true)}
+              className="text-white text-xs font-bold tracking-widest uppercase hover:text-brand-blue transition-colors"
+            >
+              Account
+            </button>
+          )}
+          <a href="#" className="text-white text-xs font-bold tracking-widest uppercase hover:text-brand-blue transition-colors">About</a>
         </div>
 
         {/* Desktop Icons */}
@@ -51,9 +90,6 @@ const Navbar = () => {
                 {itemCount}
               </span>
             )}
-          </button>
-          <button className="text-white hover:text-brand-blue transition-colors">
-            <User size={22} />
           </button>
         </div>
 
@@ -90,11 +126,19 @@ const Navbar = () => {
                   </span>
                 )}
               </button>
-              <User size={32} />
             </div>
             <div className="text-3xl md:text-4xl font-bold space-y-6 text-center mt-6">
               <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)} className="block text-white hover:text-brand-blue transition-colors">SHOP</Link>
               <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="block text-white hover:text-brand-blue transition-colors">COLLECTIONS</a>
+              
+              {currentUser ? (
+                <>
+                  <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="block text-white hover:text-brand-blue transition-colors">PROFILE</Link>
+                </>
+              ) : (
+                <button onClick={() => { setIsLoginModalOpen(true); setIsMobileMenuOpen(false); }} className="block text-white hover:text-brand-blue transition-colors uppercase">LOGIN</button>
+              )}
+              
               <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="block text-white hover:text-brand-blue transition-colors">ABOUT</a>
             </div>
           </motion.div>

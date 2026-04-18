@@ -64,15 +64,18 @@ const CartDrawer = () => {
               ) : (
                 <div className="space-y-8">
                   {cart.map((item) => (
-                    <div key={item.id} className="flex space-x-6 group">
+                    <div key={`${item.id}-${item.size}`} className="flex space-x-6 group">
                       <div className="w-24 h-32 bg-white/5 rounded-2xl overflow-hidden flex-shrink-0">
                         <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1">
                         <div className="flex justify-between mb-2">
-                          <h3 className="text-white font-bold">{item.name}</h3>
+                          <div>
+                            <h3 className="text-white font-bold">{item.name}</h3>
+                            <p className="text-brand-gray text-[10px] font-black uppercase tracking-widest mt-1">Size: {item.size}</p>
+                          </div>
                           <button 
-                            onClick={() => removeFromCart(item.id)}
+                            onClick={() => removeFromCart(item.id, item.size)}
                             className="text-white/20 hover:text-red-500 transition-colors"
                           >
                             <Trash2 size={16} />
@@ -82,14 +85,14 @@ const CartDrawer = () => {
                         <div className="flex items-center space-x-4">
                           <div className="flex items-center bg-white/5 rounded-lg p-1 border border-white/10 text-white">
                             <button 
-                              onClick={() => updateQuantity(item.id, -1)}
+                              onClick={() => updateQuantity(item.id, item.size, -1)}
                               className="p-1 hover:bg-white/10 rounded"
                             >
                               <Minus size={14} />
                             </button>
                             <span className="w-8 text-center text-xs font-bold">{item.quantity}</span>
                             <button 
-                              onClick={() => updateQuantity(item.id, 1)}
+                              onClick={() => updateQuantity(item.id, item.size, 1)}
                               className="p-1 hover:bg-white/10 rounded"
                             >
                               <Plus size={14} />

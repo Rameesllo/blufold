@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
 
@@ -9,15 +10,29 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }) => {
+  const { currentUser } = useAuth();
+  
+  // Use a ref to prevent looping since we switch the cart entirely, 
+  // but we can just use dynamic identification for localStorage
+  const getCartKey = () => `blufold_cart_${currentUser?.email || 'guest'}`;
+
   const [cart, setCart] = useState(() => {
-    const savedCart = localStorage.getItem('blufold_cart');
+    const savedCart = localStorage.getItem(getCartKey());
     return savedCart ? JSON.parse(savedCart) : [];
   });
+
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  // Hot-swap the cart memory when the currentUser logs in/out
   useEffect(() => {
-    localStorage.setItem('blufold_cart', JSON.stringify(cart));
-  }, [cart]);
+    const savedCart = localStorage.getItem(getCartKey());
+    setCart(savedCart ? JSON.parse(savedCart) : []);
+  }, [currentUser]);
+
+  // Persist the cart continuously based on the dynamically retrieved key
+  useEffect(() => {
+    localStorage.setItem(getCartKey(), JSON.stringify(cart));
+  }, [cart, currentUser]);
 
   const addToCart = (product) => {
     setCart((prev) => {
@@ -36,13 +51,13 @@ export const CartProvider = ({ children }) => {
     setIsCartOpen(true);
   };
 
-  const removeFromCart = (productId) => {
-    setCart((prev) => prev.filter(item => item.id !== productId));
+  const removeFromCart = (productId, size) => {
+    setCart((prev) => prev.filter(item => !(item.id === productId && item.size === size)));
   };
 
-  const updateQuantity = (productId, delta) => {
+  const updateQuantity = (productId, size, delta) => {
     setCart((prev) => prev.map(item => {
-      if (item.id === productId) {
+      if (item.id === productId && item.size === size) {
         const newQty = Math.max(1, item.quantity + delta);
         return { ...item, quantity: newQty };
       }

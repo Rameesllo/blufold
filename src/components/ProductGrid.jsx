@@ -4,7 +4,7 @@ import { Heart, ShoppingBag, Star, Zap, X, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
-import { products } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 
 export const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
@@ -114,24 +114,7 @@ export const ProductCard = ({ product }) => {
           )}
         </AnimatePresence>
 
-        {/* Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
-          {product.badge && (
-            <span className="px-2 py-0.5 bg-brand-blue text-white text-[10px] font-black rounded-full tracking-widest">
-              {product.badge}
-            </span>
-          )}
-          {discount > 0 && (
-            <span className="px-2 py-0.5 bg-green-500 text-white text-[10px] font-black rounded-full">
-              -{discount}%
-            </span>
-          )}
-          {product.inStock && product.inventory < 5 && (
-            <span className="px-2 py-0.5 bg-orange-500 text-white text-[10px] font-black rounded-full animate-pulse">
-              ONLY {product.inventory} LEFT
-            </span>
-          )}
-        </div>
+
 
         {/* Wishlist */}
         <button
@@ -188,6 +171,7 @@ export const ProductCard = ({ product }) => {
 };
 
 const ProductGrid = () => {
+  const { products } = useProducts();
   const navigate = useNavigate();
   const featured = products.slice(0, 4);
 
